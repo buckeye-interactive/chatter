@@ -216,7 +216,7 @@ class ChatterDiscussionController extends Controller
             $posts->orderBy($order['order'], $order['by']);
         }
 
-        $posts->paginate(10);
+        $posts = $posts->paginate(10);
 
         $chatter_editor = config('chatter.editor');
 
