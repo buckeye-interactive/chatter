@@ -21,7 +21,7 @@ return [
         'login'      => 'login',
     ],
 
-   /*
+    /*
     |--------------------------------------------------------------------------
     | Headline logo
     |--------------------------------------------------------------------------
@@ -202,12 +202,20 @@ return [
 
     'order_by' => [
         'posts' => [
-            'order' => 'created_at',
-            'by' => 'ASC'
+            [
+                'order' => 'created_at',
+                'by' => 'ASC'
+            ]
         ],
         'discussions' => [
-            'order' => 'last_reply_at',
-            'by' => 'DESC'
+            [
+                'order' => 'sticky',
+                'by' => 'DESC'
+            ],
+            [
+                'order' => 'last_reply_at',
+                'by' => 'DESC'
+            ]
         ]
     ],
 

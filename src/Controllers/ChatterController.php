@@ -12,8 +12,14 @@ class ChatterController extends Controller
     public function index($slug = '')
     {
         $pagination_results = config('chatter.paginate.num_of_results');
+        $discussionOrdering = config('chatter.order_by.discussions');
 
-        $discussions = Models::discussion()->with('user')->with('post')->with('category')->orderBy(config('chatter.order_by.discussions.order'), config('chatter.order_by.discussions.by'));
+        $discussions = Models::discussion()->with('user')->with('post')->with('category');
+
+        foreach ($discussionOrdering as $order) {
+            $discussions->orderBy($order['order'], $order['by']);
+        }
+
         if (isset($slug)) {
             $category = Models::category()->where('slug', '=', $slug)->first();
 
@@ -45,14 +51,14 @@ class ChatterController extends Controller
     public function login()
     {
         if (!Auth::check()) {
-            return \Redirect::to('/'.config('chatter.routes.login').'?redirect='.config('chatter.routes.home'))->with('flash_message', 'Please create an account before posting.');
+            return \Redirect::to('/' . config('chatter.routes.login') . '?redirect=' . config('chatter.routes.home'))->with('flash_message', 'Please create an account before posting.');
         }
     }
 
     public function register()
     {
         if (!Auth::check()) {
-            return \Redirect::to('/'.config('chatter.routes.register').'?redirect='.config('chatter.routes.home'))->with('flash_message', 'Please register for an account.');
+            return \Redirect::to('/' . config('chatter.routes.register') . '?redirect=' . config('chatter.routes.home'))->with('flash_message', 'Please register for an account.');
         }
     }
 }
